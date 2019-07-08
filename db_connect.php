@@ -1,5 +1,5 @@
 <?php
-$servername = "onecall.cezmznhjuynv.us-west-1.rds.amazonaws.com";
+$servername = "<serverName>";
 $username = "root";
 $password = "mypassword";
 
