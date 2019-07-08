@@ -8,8 +8,8 @@ include_once 'src/contrib/Google_Oauth2Service.php';
 /*
  * Configuration and setup Google API
  */
-$clientId = '921666959945-8n9uvi5bf9d7spuntckknvjqtqhbf6vv.apps.googleusercontent.com'; //Google client ID
-$clientSecret = 'YzspCbvfL5S3tzM9vD9Yg3uN'; //Google client secret
+$clientId = '<clientId>'; //Google client ID
+$clientSecret = '<secret>'; //Google client secret
 
 $redirectURL = 'http://arpsharma.com/productsServices.php'; //Callback URL
 
