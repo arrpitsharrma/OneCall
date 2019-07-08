@@ -1,0 +1,175 @@
+<html><title>All Users</title><head>
+<a href="index.php">
+<img alt="OneCall" src="OneCall logo.png" align="left" ></a><br>
+<h1 style=" margin-top: 191px   margin-right: 193px;">Local Users of this website (OneCall Pro)</h1>
+</head>
+<body bgcolor="black" text="white" style="text-align: center;background-image: url(bg.jpg);
+  background-repeat: repeat-x;"">
+  <div style="     float: left;
+    margin-left: 191px; margin-top: -58px
+
+  ">
+  <?php
+include "db_connect.php";
+$sql = "SELECT first_name, last_name, email, home_add, home_phone, cell_phone FROM user";
+$result = mysqli_query($conn, $sql);
+
+echo "<div
+   style='
+    float: left;
+    margin-left: 70px;
+    '
+>
+<head>
+<style>
+    
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+    
+.auto-index td:first-child:before
+{
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content: counter(Serial); /* Display the counter */
+}
+    
+#users {
+  font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+    
+#users td, #users th {
+color:black;
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+    
+#users tr:nth-child(even){background-color: #f2f2f2;}
+    
+#users tr:hover {background-color: #ddd;}
+    
+#users th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+</head>
+<body>
+    
+<table id='users' class='auto-index'>
+  <tr>
+ <th>Sr No.</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+<th>Home Address</th>
+<th>Home Phone</th>
+<th>Cell Phone</th>
+  </tr>";
+if ($result->num_rows > 0) {
+    
+    while($row = $result->fetch_assoc()) {
+        echo "<tr><td></td><td>" . $row["first_name"] . '</td><td>' . $row["last_name"] . '</td><td>'
+      . $row["email"] . '</td><td>'
+        . $row["home_add"] . '</td><td>'
+    . $row["home_phone"] . '</td><td>'
+    . $row["cell_phone"] . '</td>';
+    }
+} else {
+    echo "0 results";
+}
+?></div>
+</body></html>
+
+<?php
+$ch = curl_init("http://54.241.169.38/rest/read.php");
+$fp = fopen("/var/www/html/rest/myUsers.txt", "w");
+
+curl_setopt($ch, CURLOPT_FILE, $fp);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+
+curl_exec($ch);
+curl_close($ch);
+fclose($fp);
+?>
+<html>
+<div>
+<?php
+$data = json_decode(file_get_contents("/var/www/html/rest/myUsers.txt"));
+// print_r($data);
+$records = $data->records;
+echo "<div 
+   style='
+    float: left;
+    margin-left: 70px;
+    '
+>
+<head>
+<style>
+
+body
+{
+    counter-reset: Serial;           /* Set the Serial counter to 0 */
+}
+
+.auto-index td:first-child:before
+{
+  counter-increment: Serial;      /* Increment the Serial counter */
+  content: counter(Serial); /* Display the counter */
+}
+
+#users2 {
+  font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#users2 td, #users th {
+color:black;
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#users2 tr:nth-child(even){background-color: #f2f2f2;}
+
+#users2 tr:hover {background-color: #ddd;}
+
+#users2 th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<table id='users2' class='auto-index'>
+  <tr>
+ <th>Sr No.</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+<th>Home Address</th>
+<th>Home Phone</th>
+<th>Cell Phone</th>
+  </tr>";
+echo "<h1>Users of the remote website (<a style='color:white' href='http://54.241.169.38/allUsers.php' >Amrita Resort</a>)</h1>";
+foreach ($records as $record) {
+    echo "<tr><td></td><td>" . $record->first_name . '</td><td>' . $record->last_name . '</td><td>'
+      . $record->email . '</td><td>'
+    . $record->home_add . '</td><td>'
+    . $record->home_phone . '</td><td>'
+    . $record->cell_phone . '</td>';
+}
+echo "</div>";
+?>
+</div>
+</body>
+</html>
